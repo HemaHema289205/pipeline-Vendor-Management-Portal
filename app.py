@@ -481,7 +481,7 @@ INDEX_HTML = """
         </div>
         
         <div class="footer">
-            <p>&copy; 2025 Grama Panchayat Management System | All rights reserved</p>
+            <p>&copy; 2023 Grama Panchayat Management System | All rights reserved</p>
         </div>
     </div>
 
@@ -1103,7 +1103,7 @@ DETAILS_HTML = """
         </div>
         
         <div class="footer">
-            <p>&copy; 2025 Grama Panchayat Management System | All rights reserved</p>
+            <p>&copy; 2023 Grama Panchayat Management System | All rights reserved</p>
         </div>
     </div>
 
@@ -1226,7 +1226,9 @@ def submit():
     return redirect("/")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='192.168.29.220', port=5000, debug=True)
+
+    
     
 
 
