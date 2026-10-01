@@ -10,34 +10,78 @@ st.set_page_config(
     layout="centered" 
 )
 
-# Custom Styling: Subtle white to very light pink gradient
+# Custom Styling: High-contrast light pink theme
 st.markdown("""
     <style>
-    /* Main app background */
+    /* App background */
     .stApp {
-        background: linear-gradient(135deg, #ffffff 0%, #fff0f5 50%, #ffe4e9 100%);
-        color: #2c3e50;
+        background: linear-gradient(135deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
 
-    /* Style form containers and cards */
-    [data-testid="stForm"], div[data-testid="stVerticalBlock"] > div:has(div.stDateInput) {
-        background-color: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(8px);
-        padding: 24px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 182, 193, 0.4);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    /* Force all text, headers, and input labels to deep readable charcoal */
+    .stApp, .stApp p, .stApp span, .stApp label, .stApp h1, .stApp h2, .stApp h3 {
+        color: #1a1a2e !important;
+        font-weight: 600 !important;
     }
 
-    /* Button accents */
-    .stButton > button {
-        border-radius: 8px;
-        border: 1px solid #f8bbd0;
-        transition: all 0.2s ease-in-out;
+    /* Form container card */
+    [data-testid="stForm"] {
+        background-color: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 30px !important;
+        border: 1.5px solid #f8bbd0 !important;
+        box-shadow: 0 8px 24px rgba(224, 86, 126, 0.08) !important;
     }
-    .stButton > button:hover {
-        border-color: #f06292;
-        color: #d81b60;
+
+    /* Override input boxes (text, number, date picker) to prevent dark mode blackouts */
+    div[data-baseweb="input"],
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="base-input"],
+    div[data-baseweb="select"] > div {
+        background-color: #fffafc !important;
+        border: 1px solid #f48fb1 !important;
+        border-radius: 8px !important;
+    }
+
+    /* Input text color */
+    input[type="text"], 
+    input[type="number"], 
+    .stDateInput input {
+        color: #1a1a2e !important;
+        background-color: transparent !important;
+        font-weight: 600 !important;
+    }
+
+    /* Number input +/- step buttons */
+    button[data-testid="stNumberInputStepUp"],
+    button[data-testid="stNumberInputStepDown"] {
+        background-color: #fce4ec !important;
+        color: #ad1457 !important;
+        border: none !important;
+    }
+
+    /* Submit and general buttons */
+    .stButton > button, 
+    [data-testid="stFormSubmitButton"] > button {
+        background: linear-gradient(90deg, #ec407a 0%, #d81b60 100%) !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+        border: none !important;
+        padding: 0.6rem 1.2rem !important;
+        box-shadow: 0 4px 12px rgba(216, 27, 96, 0.25) !important;
+    }
+
+    .stButton > button:hover, 
+    [data-testid="stFormSubmitButton"] > button:hover {
+        background: linear-gradient(90deg, #d81b60 0%, #c2185b 100%) !important;
+        box-shadow: 0 6px 16px rgba(216, 27, 96, 0.35) !important;
+    }
+
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background-color: #fff0f5 !important;
+        border-right: 1px solid #ffd1dc !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -149,7 +193,7 @@ if 'selected_panchayat' not in st.session_state:
 # Page 1: Index View
 if st.session_state.page == 'index':
     st.markdown("<h1 style='text-align: center;'>🏛️ GRAMA PANCHAYAT PORTAL</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #666;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #555;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
     
     st.write("")
     selected_panchayat = st.selectbox("Select Panchayat", ["-- Select Panchayat --"] + PANCHAYATS)
@@ -230,7 +274,7 @@ elif st.session_state.page == 'details':
                 st.success("Details submitted and saved successfully!")
                 st.balloons()
 
-    # Sidebar: Data management & direct download
+    # Sidebar: Data export
     with st.sidebar:
         st.header("📂 Data Export")
         if os.path.exists(EXCEL_FILE):
