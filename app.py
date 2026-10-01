@@ -10,6 +10,38 @@ st.set_page_config(
     layout="centered" 
 )
 
+# Custom Styling: Subtle white to very light pink gradient
+st.markdown("""
+    <style>
+    /* Main app background */
+    .stApp {
+        background: linear-gradient(135deg, #ffffff 0%, #fff0f5 50%, #ffe4e9 100%);
+        color: #2c3e50;
+    }
+
+    /* Style form containers and cards */
+    [data-testid="stForm"], div[data-testid="stVerticalBlock"] > div:has(div.stDateInput) {
+        background-color: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(8px);
+        padding: 24px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 182, 193, 0.4);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Button accents */
+    .stButton > button {
+        border-radius: 8px;
+        border: 1px solid #f8bbd0;
+        transition: all 0.2s ease-in-out;
+    }
+    .stButton > button:hover {
+        border-color: #f06292;
+        color: #d81b60;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 EXCEL_FILE = "contractor_data.xlsx"
 
 # Define DIA columns
@@ -117,7 +149,7 @@ if 'selected_panchayat' not in st.session_state:
 # Page 1: Index View
 if st.session_state.page == 'index':
     st.markdown("<h1 style='text-align: center;'>🏛️ GRAMA PANCHAYAT PORTAL</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: gray;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #666;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
     
     st.write("")
     selected_panchayat = st.selectbox("Select Panchayat", ["-- Select Panchayat --"] + PANCHAYATS)
@@ -197,3 +229,16 @@ elif st.session_state.page == 'details':
                 
                 st.success("Details submitted and saved successfully!")
                 st.balloons()
+
+    # Sidebar: Data management & direct download
+    with st.sidebar:
+        st.header("📂 Data Export")
+        if os.path.exists(EXCEL_FILE):
+            with open(EXCEL_FILE, "rb") as file:
+                st.download_button(
+                    label="📥 Download Data Sheet",
+                    data=file,
+                    file_name="contractor_data.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    use_container_width=True
+                )
