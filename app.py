@@ -10,31 +10,43 @@ st.set_page_config(
     layout="centered" 
 )
 
-# Custom Styling: High-contrast light pink theme
-# Custom Styling: Complete light pink & pure white with solid black text (zero black boxes)
+# Custom Styling: Complete White & Light Pink (No Black Containers)
 st.markdown("""
     <style>
-    /* App background */
-    .stApp {
-        background: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
+    /* 1. Global background */
+    .stApp, header[data-testid="stHeader"] {
+        background-color: #fff0f3 !important;
+        background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
 
-    /* All text everywhere: solid black */
+    /* 2. Top Streamlit Header / Toolbar (removes the black top bar) */
+    header[data-testid="stHeader"], [data-testid="stToolbar"] {
+        background: transparent !important;
+    }
+
+    /* 3. Sidebar: Pure white with soft pink border (removes dark sidebar) */
+    section[data-testid="stSidebar"], 
+    [data-testid="stSidebar"] > div {
+        background-color: #ffffff !important;
+        border-right: 1.5px solid #f8bbd0 !important;
+    }
+
+    /* 4. Text Everywhere: Crisp Black */
     *, p, span, label, h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] p {
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
     }
 
-    /* Form container */
+    /* 5. Main Form Card: Pure White */
     [data-testid="stForm"] {
         background-color: #ffffff !important;
-        border-radius: 14px !important;
-        padding: 28px !important;
+        border-radius: 16px !important;
+        padding: 30px !important;
         border: 1.5px solid #f8bbd0 !important;
-        box-shadow: 0 4px 16px rgba(236, 64, 122, 0.08) !important;
+        box-shadow: 0 6px 20px rgba(236, 64, 122, 0.08) !important;
     }
 
-    /* All input containers, select boxes, and text boxes: pure white */
+    /* 6. All Inputs & Dropdowns (Text, Number, Date, Selectbox): Pure White */
     div[data-baseweb="input"],
     div[data-baseweb="input"] > div,
     div[data-baseweb="base-input"],
@@ -44,10 +56,11 @@ st.markdown("""
         background-color: #ffffff !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
-        border-color: #f8bbd0 !important;
+        border: 1px solid #f8bbd0 !important;
+        border-radius: 8px !important;
     }
 
-    /* Dropdown end icons & arrow container: pure white */
+    /* Dropdown arrow and popup list: Pure White */
     div[data-baseweb="select"] svg,
     div[data-baseweb="select"] div[role="button"] {
         background-color: #ffffff !important;
@@ -55,17 +68,16 @@ st.markdown("""
         color: #000000 !important;
     }
 
-    /* Dropdown popover list & open menu: pure white background with black text */
     div[data-baseweb="popover"],
     div[data-baseweb="menu"],
     ul[data-baseweb="menu"],
-    li[data-baseweb="menu-item"] {
+    li[data-baseweb="menu-item"],
+    div[data-baseweb="calendar"] {
         background-color: #ffffff !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
     }
 
-    /* Dropdown hover and selection items */
     li[data-baseweb="menu-item"]:hover,
     li[aria-selected="true"] {
         background-color: #ffe4ec !important;
@@ -73,12 +85,7 @@ st.markdown("""
         -webkit-text-fill-color: #000000 !important;
     }
 
-    /* Date picker popover calendar */
-    div[data-baseweb="calendar"] {
-        background-color: #ffffff !important;
-    }
-
-    /* Step buttons (+ / -) in number inputs */
+    /* Number input (+ / -) buttons */
     button[data-testid="stNumberInputStepUp"],
     button[data-testid="stNumberInputStepDown"] {
         background-color: #ffffff !important;
@@ -87,12 +94,14 @@ st.markdown("""
         border: 1px solid #f8bbd0 !important;
     }
 
-    /* Buttons: crisp pink */
+    /* Action buttons: Soft Rose Pink */
     .stButton > button, 
     [data-testid="stFormSubmitButton"] > button {
-        background-color: #e91e63 !important;
+        background: linear-gradient(90deg, #ec407a 0%, #d81b60 100%) !important;
         border: none !important;
         border-radius: 8px !important;
+        padding: 0.6rem 1.4rem !important;
+        box-shadow: 0 4px 12px rgba(216, 27, 96, 0.25) !important;
     }
 
     .stButton > button *, 
@@ -104,10 +113,11 @@ st.markdown("""
 
     .stButton > button:hover, 
     [data-testid="stFormSubmitButton"] > button:hover {
-        background-color: #c2185b !important;
+        background: linear-gradient(90deg, #d81b60 0%, #c2185b 100%) !important;
     }
     </style>
 """, unsafe_allow_html=True)
+
 EXCEL_FILE = "contractor_data.xlsx"
 
 # Define DIA columns
@@ -215,7 +225,7 @@ if 'selected_panchayat' not in st.session_state:
 # Page 1: Index View
 if st.session_state.page == 'index':
     st.markdown("<h1 style='text-align: center;'>🏛️ GRAMA PANCHAYAT PORTAL</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #555;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #000000;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
     
     st.write("")
     selected_panchayat = st.selectbox("Select Panchayat", ["-- Select Panchayat --"] + PANCHAYATS)
