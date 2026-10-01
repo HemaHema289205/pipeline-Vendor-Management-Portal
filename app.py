@@ -11,22 +11,21 @@ st.set_page_config(
 )
 
 # Custom Styling: High-contrast light pink theme
-# Custom Styling: Light Pink Background + Pure White Boxes + Solid Black Text Everywhere
+# Custom Styling: Complete light pink & pure white with solid black text (zero black boxes)
 st.markdown("""
     <style>
-    /* 1. App Background: Very soft subtle light pink */
+    /* App background */
     .stApp {
-        background-color: #fff0f3 !important;
-        background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
+        background: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
 
-    /* 2. Make all text, labels, headers, titles, and icons SOLID BLACK */
-    *, p, span, label, h1, h2, h3, h4, h5, h6, div, [data-testid="stMarkdownContainer"] p {
+    /* All text everywhere: solid black */
+    *, p, span, label, h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] p {
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
     }
 
-    /* 3. Form Card: Pure white with soft pink border */
+    /* Form container */
     [data-testid="stForm"] {
         background-color: #ffffff !important;
         border-radius: 14px !important;
@@ -35,60 +34,77 @@ st.markdown("""
         box-shadow: 0 4px 16px rgba(236, 64, 122, 0.08) !important;
     }
 
-    /* 4. Fix ALL input boxes (Text, Number, Date, Selectbox) to PURE WHITE */
+    /* All input containers, select boxes, and text boxes: pure white */
     div[data-baseweb="input"],
     div[data-baseweb="input"] > div,
     div[data-baseweb="base-input"],
     div[data-baseweb="select"],
     div[data-baseweb="select"] > div,
-    div[data-baseweb="popover"],
     input {
         background-color: #ffffff !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
-        border-color: #d1d5db !important;
-        border-radius: 6px !important;
+        border-color: #f8bbd0 !important;
     }
 
-    /* Number input +/- step buttons */
+    /* Dropdown end icons & arrow container: pure white */
+    div[data-baseweb="select"] svg,
+    div[data-baseweb="select"] div[role="button"] {
+        background-color: #ffffff !important;
+        fill: #000000 !important;
+        color: #000000 !important;
+    }
+
+    /* Dropdown popover list & open menu: pure white background with black text */
+    div[data-baseweb="popover"],
+    div[data-baseweb="menu"],
+    ul[data-baseweb="menu"],
+    li[data-baseweb="menu-item"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+    }
+
+    /* Dropdown hover and selection items */
+    li[data-baseweb="menu-item"]:hover,
+    li[aria-selected="true"] {
+        background-color: #ffe4ec !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+    }
+
+    /* Date picker popover calendar */
+    div[data-baseweb="calendar"] {
+        background-color: #ffffff !important;
+    }
+
+    /* Step buttons (+ / -) in number inputs */
     button[data-testid="stNumberInputStepUp"],
     button[data-testid="stNumberInputStepDown"] {
-        background-color: #fce4ec !important;
+        background-color: #ffffff !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
         border: 1px solid #f8bbd0 !important;
     }
 
-    /* 5. Submit and Action Buttons: Crisp Rose-Pink with readable White/Black text */
-    [data-testid="stFormSubmitButton"] > button,
-    .stButton > button {
+    /* Buttons: crisp pink */
+    .stButton > button, 
+    [data-testid="stFormSubmitButton"] > button {
         background-color: #e91e63 !important;
         border: none !important;
         border-radius: 8px !important;
-        padding: 0.6rem 1.5rem !important;
     }
 
-    [data-testid="stFormSubmitButton"] > button *,
-    .stButton > button * {
+    .stButton > button *, 
+    [data-testid="stFormSubmitButton"] > button * {
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
         font-weight: 700 !important;
     }
 
-    [data-testid="stFormSubmitButton"] > button:hover,
-    .stButton > button:hover {
+    .stButton > button:hover, 
+    [data-testid="stFormSubmitButton"] > button:hover {
         background-color: #c2185b !important;
-    }
-
-    /* 6. Sidebar styling */
-    [data-testid="stSidebar"] {
-        background-color: #ffeef2 !important;
-        border-right: 1px solid #f8bbd0 !important;
-    }
-    
-    [data-testid="stSidebar"] * {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
     }
     </style>
 """, unsafe_allow_html=True)
