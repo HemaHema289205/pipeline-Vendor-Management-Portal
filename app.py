@@ -11,81 +11,87 @@ st.set_page_config(
 )
 
 # Custom Styling: High-contrast light pink theme
+# Custom Styling: Light Pink Background + Pure White Boxes + Solid Black Text Everywhere
 st.markdown("""
     <style>
-    /* App background */
+    /* 1. App Background: Very soft subtle light pink */
     .stApp {
-        background: linear-gradient(135deg, #fff5f7 0%, #ffe4ec 100%) !important;
+        background-color: #fff0f3 !important;
+        background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
 
-    /* Force all text, headers, and input labels to deep readable charcoal */
-    .stApp, .stApp p, .stApp span, .stApp label, .stApp h1, .stApp h2, .stApp h3 {
-        color: #1a1a2e !important;
-        font-weight: 600 !important;
+    /* 2. Make all text, labels, headers, titles, and icons SOLID BLACK */
+    *, p, span, label, h1, h2, h3, h4, h5, h6, div, [data-testid="stMarkdownContainer"] p {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
     }
 
-    /* Form container card */
+    /* 3. Form Card: Pure white with soft pink border */
     [data-testid="stForm"] {
         background-color: #ffffff !important;
-        border-radius: 16px !important;
-        padding: 30px !important;
+        border-radius: 14px !important;
+        padding: 28px !important;
         border: 1.5px solid #f8bbd0 !important;
-        box-shadow: 0 8px 24px rgba(224, 86, 126, 0.08) !important;
+        box-shadow: 0 4px 16px rgba(236, 64, 122, 0.08) !important;
     }
 
-    /* Override input boxes (text, number, date picker) to prevent dark mode blackouts */
+    /* 4. Fix ALL input boxes (Text, Number, Date, Selectbox) to PURE WHITE */
     div[data-baseweb="input"],
     div[data-baseweb="input"] > div,
     div[data-baseweb="base-input"],
-    div[data-baseweb="select"] > div {
-        background-color: #fffafc !important;
-        border: 1px solid #f48fb1 !important;
-        border-radius: 8px !important;
-    }
-
-    /* Input text color */
-    input[type="text"], 
-    input[type="number"], 
-    .stDateInput input {
-        color: #1a1a2e !important;
-        background-color: transparent !important;
-        font-weight: 600 !important;
+    div[data-baseweb="select"],
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="popover"],
+    input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        border-color: #d1d5db !important;
+        border-radius: 6px !important;
     }
 
     /* Number input +/- step buttons */
     button[data-testid="stNumberInputStepUp"],
     button[data-testid="stNumberInputStepDown"] {
         background-color: #fce4ec !important;
-        color: #ad1457 !important;
-        border: none !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        border: 1px solid #f8bbd0 !important;
     }
 
-    /* Submit and general buttons */
-    .stButton > button, 
-    [data-testid="stFormSubmitButton"] > button {
-        background: linear-gradient(90deg, #ec407a 0%, #d81b60 100%) !important;
-        color: #ffffff !important;
-        font-weight: 700 !important;
+    /* 5. Submit and Action Buttons: Crisp Rose-Pink with readable White/Black text */
+    [data-testid="stFormSubmitButton"] > button,
+    .stButton > button {
+        background-color: #e91e63 !important;
+        border: none !important;
         border-radius: 8px !important;
-        border: none !important;
-        padding: 0.6rem 1.2rem !important;
-        box-shadow: 0 4px 12px rgba(216, 27, 96, 0.25) !important;
+        padding: 0.6rem 1.5rem !important;
     }
 
-    .stButton > button:hover, 
-    [data-testid="stFormSubmitButton"] > button:hover {
-        background: linear-gradient(90deg, #d81b60 0%, #c2185b 100%) !important;
-        box-shadow: 0 6px 16px rgba(216, 27, 96, 0.35) !important;
+    [data-testid="stFormSubmitButton"] > button *,
+    .stButton > button * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 700 !important;
     }
 
-    /* Sidebar styling */
+    [data-testid="stFormSubmitButton"] > button:hover,
+    .stButton > button:hover {
+        background-color: #c2185b !important;
+    }
+
+    /* 6. Sidebar styling */
     [data-testid="stSidebar"] {
-        background-color: #fff0f5 !important;
-        border-right: 1px solid #ffd1dc !important;
+        background-color: #ffeef2 !important;
+        border-right: 1px solid #f8bbd0 !important;
+    }
+    
+    [data-testid="stSidebar"] * {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
     }
     </style>
 """, unsafe_allow_html=True)
-
 EXCEL_FILE = "contractor_data.xlsx"
 
 # Define DIA columns
