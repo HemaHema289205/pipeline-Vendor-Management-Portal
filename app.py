@@ -7,7 +7,7 @@ from datetime import datetime
 st.set_page_config(
     page_title="Grama Panchayat Portal",
     page_icon="🏛️",
-    layout="centered"
+    layout="centered" 
 )
 
 EXCEL_FILE = "contractor_data.xlsx"
