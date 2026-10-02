@@ -41,8 +41,8 @@ st.markdown("""
 
     /* Dropdown Arrow Icon */
     div[data-baseweb="select"] svg {
-        fill: #000000 !important;
-        color: #000000 !important;
+        fill: #ffffff !important;
+        color: #ffffff !important;
     }
 
     /* 4. Dropdown Popover / Floating Menu Items */
