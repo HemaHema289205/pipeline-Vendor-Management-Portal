@@ -19,60 +19,38 @@ st.markdown("""
         background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
 
-    /* 2. Top Streamlit Header / Toolbar (removes the black top bar) */
     header[data-testid="stHeader"], [data-testid="stToolbar"] {
         background: transparent !important;
     }
 
-    /* 3. Sidebar: Pure white with soft pink border (removes dark sidebar) */
-    section[data-testid="stSidebar"], 
-    [data-testid="stSidebar"] > div {
-        background-color: #ffffff !important;
-        border-right: 1.5px solid #f8bbd0 !important;
-    }
-
-    /* 4. Text Everywhere: Crisp Black */
+    /* 2. Text Everywhere: Solid Black */
     *, p, span, label, h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] p {
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
     }
 
-    /* 5. Main Form Card: Pure White */
-    [data-testid="stForm"] {
-        background-color: #ffffff !important;
-        border-radius: 16px !important;
-        padding: 30px !important;
-        border: 1.5px solid #f8bbd0 !important;
-        box-shadow: 0 6px 20px rgba(236, 64, 122, 0.08) !important;
-    }
-
-    /* 6. All Inputs & Dropdowns (Text, Number, Date, Selectbox): Pure White */
-    div[data-baseweb="input"],
-    div[data-baseweb="input"] > div,
-    div[data-baseweb="base-input"],
+    /* 3. Dropdown Box and ALL its nested children (fixes the black box on the right) */
     div[data-baseweb="select"],
-    div[data-baseweb="select"] > div,
-    input {
+    div[data-baseweb="select"] * {
         background-color: #ffffff !important;
+        background: #ffffff !important;
+        border-color: #f8bbd0 !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
-        border: 1px solid #f8bbd0 !important;
-        border-radius: 8px !important;
     }
 
-    /* Dropdown arrow and popup list: Pure White */
-    div[data-baseweb="select"] svg,
-    div[data-baseweb="select"] div[role="button"] {
-        background-color: #ffffff !important;
+    /* Dropdown Arrow Icon */
+    div[data-baseweb="select"] svg {
         fill: #000000 !important;
         color: #000000 !important;
     }
 
+    /* 4. Dropdown Popover / Floating Menu Items */
     div[data-baseweb="popover"],
+    div[data-baseweb="popover"] *,
     div[data-baseweb="menu"],
     ul[data-baseweb="menu"],
-    li[data-baseweb="menu-item"],
-    div[data-baseweb="calendar"] {
+    li[data-baseweb="menu-item"] {
         background-color: #ffffff !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
@@ -82,26 +60,33 @@ st.markdown("""
     li[aria-selected="true"] {
         background-color: #ffe4ec !important;
         color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
     }
 
-    /* Number input (+ / -) buttons */
-    button[data-testid="stNumberInputStepUp"],
-    button[data-testid="stNumberInputStepDown"] {
+    /* 5. Inputs & Forms */
+    [data-testid="stForm"] {
+        background-color: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 30px !important;
+        border: 1.5px solid #f8bbd0 !important;
+        box-shadow: 0 6px 20px rgba(236, 64, 122, 0.08) !important;
+    }
+
+    div[data-baseweb="input"],
+    div[data-baseweb="input"] *,
+    input {
         background-color: #ffffff !important;
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
-        border: 1px solid #f8bbd0 !important;
+        border-color: #f8bbd0 !important;
     }
 
-    /* Action buttons: Soft Rose Pink */
+    /* 6. Action Button */
     .stButton > button, 
     [data-testid="stFormSubmitButton"] > button {
         background: linear-gradient(90deg, #ec407a 0%, #d81b60 100%) !important;
         border: none !important;
         border-radius: 8px !important;
         padding: 0.6rem 1.4rem !important;
-        box-shadow: 0 4px 12px rgba(216, 27, 96, 0.25) !important;
     }
 
     .stButton > button *, 
@@ -109,11 +94,6 @@ st.markdown("""
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
         font-weight: 700 !important;
-    }
-
-    .stButton > button:hover, 
-    [data-testid="stFormSubmitButton"] > button:hover {
-        background: linear-gradient(90deg, #d81b60 0%, #c2185b 100%) !important;
     }
     </style>
 """, unsafe_allow_html=True)
