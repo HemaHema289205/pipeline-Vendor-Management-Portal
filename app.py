@@ -36,12 +36,12 @@ st.markdown("""
         background: #ffffff !important;
         border-color: #f8bbd0 !important;
         color: #000000 !important;
-        -webkit-text-fill-color: #ffffff!important;
+        -webkit-text-fill-color: #ffffff !important;
     }
 
     /* Dropdown Arrow Icon */
     div[data-baseweb="select"] svg {
-        fill: #ffffff !important;
+        fill: #000000 !important;
         color: #000000 !important;
     }
 
@@ -52,7 +52,7 @@ st.markdown("""
     ul[data-baseweb="menu"],
     li[data-baseweb="menu-item"] {
         background-color: #ffffff !important;
-        color: #000000 !important;
+        color: #ffffff !important;
         -webkit-text-fill-color: #000000 !important;
     }
 
