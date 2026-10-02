@@ -12,93 +12,68 @@ st.set_page_config(
 
 # Custom Styling: Complete White & Light Pink (No Black Containers)
 st.markdown("""
-    <style>
-    /* 1. Global background */
+<style>
+    /* Global background */
     .stApp, header[data-testid="stHeader"] {
         background-color: #fff0f3 !important;
         background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
-
     header[data-testid="stHeader"], [data-testid="stToolbar"] {
         background: transparent !important;
     }
 
-    /* 2. Text Everywhere: Solid Black */
+    /* Text Everywhere */
     *, p, span, label, h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] p {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
     }
 
-    /* 3. Dropdown Box and ALL its nested children (fixes the black box on the right) */
-    div[data-baseweb="select"],
-    div[data-baseweb="select"] * {
+    /* Dropdowns & Selectboxes */
+    div[data-baseweb="select"], div[data-baseweb="select"] * {
         background-color: #ffffff !important;
         background: #ffffff !important;
-        border-color: #f8bbd0 !important;
-        color: #000000 !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #111827 !important;
     }
 
-    /* Dropdown Arrow Icon */
-    div[data-baseweb="select"] svg {
-        fill: #ffffff !important;
-        color: #ffffff !important;
+    /* Sidebar */
+    section[data-testid="stSidebar"], 
+    section[data-testid="stSidebar"] > div {
+        background-color: #fff0f3 !important;
+        background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
     }
 
-    /* 4. Dropdown Popover / Floating Menu Items */
-    div[data-baseweb="popover"],
-    div[data-baseweb="popover"] *,
-    div[data-baseweb="menu"],
-    ul[data-baseweb="menu"],
-    li[data-baseweb="menu-item"] {
+    /* Date Input */
+    div[data-testid="stDateInput"] div[data-baseweb="input"],
+    div[data-testid="stDateInput"] input {
         background-color: #ffffff !important;
-        color: #ffffff !important;
-        -webkit-text-fill-color: #000000 !important;
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
+        border: 1px solid #d1d5db !important;
     }
 
-    li[data-baseweb="menu-item"]:hover,
-    li[aria-selected="true"] {
-        background-color: #ffe4ec !important;
-        color: #000000 !important;
-    }
-
-    /* 5. Inputs & Forms */
-    [data-testid="stForm"] {
+    /* Number Inputs & DIA Stepper (+/-) Buttons */
+    div[data-testid="stNumberInput"] div[data-baseweb="input"],
+    div[data-testid="stNumberInput"] input {
         background-color: #ffffff !important;
-        border-radius: 16px !important;
-        padding: 30px !important;
-        border: 1.5px solid #f8bbd0 !important;
-        box-shadow: 0 6px 20px rgba(236, 64, 122, 0.08) !important;
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
     }
-
-    div[data-baseweb="input"],
-    div[data-baseweb="input"] *,
-    input {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
-        border-color: #f8bbd0 !important;
+    button[data-testid="stNumberInputStepDown"],
+    button[data-testid="stNumberInputStepUp"] {
+        background-color: #fce7f3 !important;
+        color: #111827 !important;
+        border: 1px solid #f472b6 !important;
     }
-
-    /* 6. Action Button */
-    .stButton > button, 
-    [data-testid="stFormSubmitButton"] > button {
-        background: linear-gradient(90deg, #ec407a 0%, #d81b60 100%) !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1.4rem !important;
+    button[data-testid="stNumberInputStepDown"]:hover,
+    button[data-testid="stNumberInputStepUp"]:hover {
+        background-color: #fbcfe8 !important;
     }
-
-    .stButton > button *, 
-    [data-testid="stFormSubmitButton"] > button * {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        font-weight: 700 !important;
+    button[data-testid="stNumberInputStepDown"] svg,
+    button[data-testid="stNumberInputStepUp"] svg {
+        fill: #111827 !important;
     }
-    </style>
-""", unsafe_allow_html=True)
-
-EXCEL_FILE = "contractor_data.xlsx"
+</style>
+""", unsafe_allow_html=True)EXCEL_FILE = "contractor_data.xlsx"
 
 # Define DIA columns
 DIA_COLUMNS = [col.upper().strip() for col in [
