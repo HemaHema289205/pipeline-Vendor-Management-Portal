@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import os
-from datetime import datetime
+from datetime import date
 
-# =========================================================
+# ============================================================
 # PAGE CONFIG
-# =========================================================
+# ============================================================
 
 st.set_page_config(
     page_title="Grama Panchayat Portal",
@@ -14,62 +14,38 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# =========================================================
-# 🎨 COLOR SETTINGS
-# =========================================================
-# Future lo colors change cheyyali ante ikkada maatrame change cheyyi
-
-APP_BG = "#FFF9FC"
-WHITE = "#FFFFFF"
+# ============================================================
+# COLORS
+# Change ONLY these values if you want another color theme
+# ============================================================
 
 PRIMARY = "#7C3AED"
-SECONDARY = "#EC4899"
+PRIMARY_DARK = "#5B21B6"
 
-PRIMARY_LIGHT = "#F3E8FF"
-PINK_LIGHT = "#FCE7F3"
+PINK = "#EC4899"
+PINK_DARK = "#DB2777"
 
-TEXT = "#14213D"
-TEXT_LIGHT = "#667085"
+LIGHT_PINK = "#FCE7F3"
+VERY_LIGHT_PINK = "#FFF7FB"
 
-BORDER = "#E7DFF0"
-BORDER_FOCUS = "#C084FC"
+LIGHT_PURPLE = "#F3E8FF"
 
-SIDEBAR_BG = "#FFFFFF"
+TEXT = "#172554"
+TEXT_SECONDARY = "#64748B"
 
-SUCCESS_BG = "#ECFDF3"
-SUCCESS_TEXT = "#027A48"
+WHITE = "#FFFFFF"
 
-ERROR_BG = "#FEF3F2"
-ERROR_TEXT = "#B42318"
+BORDER = "#E5D9EA"
 
+INPUT_BORDER = "#D8DCE8"
 
-# =========================================================
-# EXCEL FILE
-# =========================================================
-
-EXCEL_FILE = "contractor_data.xlsx"
+SHADOW = "rgba(124, 58, 237, 0.08)"
 
 
-# =========================================================
-# DIA COLUMNS
-# =========================================================
-
-DIA_COLUMNS = [
-    "63DIA",
-    "75 DIA",
-    "90 DIA",
-    "110 DIA",
-    "125 DIA",
-    "140 DIA",
-    "160 DIA",
-    "180 DIA",
-    "200 DIA"
-]
-
-
-# =========================================================
-# PANCHAYAT LIST
-# =========================================================
+# ============================================================
+# PANCHAYAT DATA
+# Replace this list with your complete original list
+# ============================================================
 
 PANCHAYATS = [
     "Aspurdevasda",
@@ -80,9 +56,7 @@ PANCHAYATS = [
     "Behla & Bijhala",
     "Bhaiswal",
     "Bhamrauli",
-    "Bhawanipur",
     "Bhitaura",
-    "Chak",
     "Chandpur",
     "Chhata",
     "Dariyapur",
@@ -103,9 +77,28 @@ PANCHAYATS = [
 ]
 
 
-# =========================================================
-# CREATE EXCEL IF NOT EXISTS
-# =========================================================
+# ============================================================
+# DIA VALUES
+# ============================================================
+
+DIA_COLUMNS = [
+    "63DIA",
+    "75 DIA",
+    "90 DIA",
+    "110 DIA",
+    "125 DIA",
+    "140 DIA",
+    "160 DIA",
+    "180 DIA",
+    "200 DIA"
+]
+
+
+# ============================================================
+# EXCEL FILE
+# ============================================================
+
+EXCEL_FILE = "contractor_data.xlsx"
 
 if not os.path.exists(EXCEL_FILE):
 
@@ -119,17 +112,15 @@ if not os.path.exists(EXCEL_FILE):
         "TYPE"
     ] + DIA_COLUMNS
 
-    empty_df = pd.DataFrame(columns=columns)
-
-    empty_df.to_excel(
+    pd.DataFrame(columns=columns).to_excel(
         EXCEL_FILE,
         index=False
     )
 
 
-# =========================================================
+# ============================================================
 # SESSION STATE
-# =========================================================
+# ============================================================
 
 if "page" not in st.session_state:
     st.session_state.page = "home"
@@ -138,135 +129,172 @@ if "selected_panchayat" not in st.session_state:
     st.session_state.selected_panchayat = ""
 
 
-# =========================================================
+# ============================================================
 # CUSTOM CSS
-# =========================================================
+# ============================================================
 
 st.markdown(
     f"""
 <style>
 
-/* =====================================================
+/* =========================================================
    GLOBAL
-   ===================================================== */
+   ========================================================= */
+
+html, body, [class*="css"] {{
+    font-family: "Segoe UI", Arial, sans-serif !important;
+}}
 
 .stApp {{
     background:
         radial-gradient(
-            circle at 85% 15%,
-            rgba(236, 72, 153, 0.08),
-            transparent 25%
+            circle at 80% 15%,
+            rgba(236,72,153,0.10),
+            transparent 30%
         ),
         radial-gradient(
-            circle at 15% 80%,
-            rgba(124, 58, 237, 0.06),
-            transparent 25%
+            circle at 20% 85%,
+            rgba(124,58,237,0.06),
+            transparent 28%
         ),
-        {APP_BG};
+        linear-gradient(
+            135deg,
+            #FFFFFF 0%,
+            #FFF9FC 45%,
+            #FFF1F8 100%
+        ) !important;
 
-    color: {TEXT};
+    color: {TEXT} !important;
 }}
 
+
+/* Remove Streamlit top spacing */
 
 header[data-testid="stHeader"] {{
     background: transparent !important;
 }}
 
 
+/* Main container */
+
 .block-container {{
-    max-width: 1180px !important;
+    max-width: 1100px !important;
 
-    padding-top: 1.5rem !important;
-    padding-bottom: 3rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 60px !important;
 }}
 
 
-/* =====================================================
-   FONT
-   ===================================================== */
-
-* {{
-    font-family:
-        "Segoe UI",
-        Arial,
-        sans-serif !important;
-}}
-
-
-/* =====================================================
+/* =========================================================
    SIDEBAR
-   ===================================================== */
+   ========================================================= */
 
 section[data-testid="stSidebar"] {{
-    background: {SIDEBAR_BG} !important;
+    background: {WHITE} !important;
 
     border-right:
-        1px solid {BORDER} !important;
+        1px solid #F0DCE8 !important;
 }}
 
 
 section[data-testid="stSidebar"] > div {{
-    background: {SIDEBAR_BG} !important;
+    background: {WHITE} !important;
 }}
 
 
-/* Sidebar Logo */
+/* Sidebar title */
 
-.sidebar-logo {{
-    width: 48px;
-    height: 48px;
-
-    border-radius: 14px;
-
+.sidebar-brand {{
     display: flex;
+
     align-items: center;
-    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 8px;
+
+    margin-bottom: 28px;
+}}
+
+
+.sidebar-building {{
+    font-size: 31px;
+
+    line-height: 1;
 
     background:
         linear-gradient(
             135deg,
-            {PRIMARY},
-            {SECONDARY}
+            {PINK},
+            {PRIMARY}
         );
 
-    color: white !important;
+    -webkit-background-clip: text;
 
-    font-size: 24px;
-
-    box-shadow:
-        0 8px 20px
-        rgba(124,58,237,0.18);
+    -webkit-text-fill-color: transparent;
 }}
 
 
-.sidebar-title {{
-    font-size: 18px;
+.sidebar-brand-text {{
+    font-size: 17px;
 
     font-weight: 800;
 
-    color: {TEXT} !important;
+    color: {TEXT};
 }}
 
 
-.sidebar-description {{
-    margin-top: 8px;
+/* Sidebar menu */
 
-    font-size: 13px;
+.sidebar-home {{
+    display: flex;
 
-    line-height: 1.6;
+    align-items: center;
 
-    color: {TEXT_LIGHT} !important;
+    gap: 13px;
+
+    padding: 11px 14px;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #FCE7F3,
+            #FCEAF5
+        );
+
+    color: {PINK_DARK};
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
 }}
 
 
-/* =====================================================
-   DOWNLOAD BUTTON
-   ONLY TEXT — NO BLACK BOX
-   ===================================================== */
+.sidebar-download {{
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 11px 14px;
+
+    color: {PINK_DARK};
+
+    font-size: 14px;
+
+    font-weight: 600;
+}}
+
+
+/* Actual Streamlit download button */
 
 section[data-testid="stSidebar"]
-.stDownloadButton
-> button {{
+div[data-testid="stDownloadButton"] button {{
 
     background: transparent !important;
 
@@ -274,51 +302,94 @@ section[data-testid="stSidebar"]
 
     box-shadow: none !important;
 
-    color: {SECONDARY} !important;
+    color: {PINK_DARK} !important;
 
-    -webkit-text-fill-color:
-        {SECONDARY} !important;
+    -webkit-text-fill-color: {PINK_DARK} !important;
 
-    font-weight: 700 !important;
+    font-size: 14px !important;
 
-    padding:
-        8px 0 !important;
+    font-weight: 600 !important;
 
-    justify-content:
-        flex-start !important;
+    padding: 8px 14px !important;
+
+    text-align: left !important;
+
+    justify-content: flex-start !important;
 }}
 
 
 section[data-testid="stSidebar"]
-.stDownloadButton
-> button:hover {{
+div[data-testid="stDownloadButton"] button:hover {{
 
-    background:
-        {PINK_LIGHT} !important;
+    background: {LIGHT_PINK} !important;
 
     border-radius: 8px !important;
 
-    box-shadow: none !important;
+    color: {PINK_DARK} !important;
 }}
 
 
 section[data-testid="stSidebar"]
-.stDownloadButton
-> button * {{
+div[data-testid="stDownloadButton"] button span {{
 
-    color:
-        {SECONDARY} !important;
+    color: {PINK_DARK} !important;
 
-    -webkit-text-fill-color:
-        {SECONDARY} !important;
+    -webkit-text-fill-color: {PINK_DARK} !important;
 }}
 
 
-/* =====================================================
-   MAIN HEADER
-   ===================================================== */
+/* =========================================================
+   SIDEBAR BOTTOM ILLUSTRATION
+   ========================================================= */
 
-.portal-header {{
+.sidebar-bottom-art {{
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 300px;
+
+    text-align: center;
+
+    pointer-events: none;
+
+}}
+
+
+.sidebar-tagline {{
+
+    font-family: Georgia, serif;
+
+    font-style: italic;
+
+    font-size: 15px;
+
+    line-height: 1.4;
+
+    color: {PINK};
+
+    margin-bottom: 8px;
+}}
+
+
+.village-art {{
+
+    font-size: 52px;
+
+    letter-spacing: -8px;
+
+    opacity: 0.85;
+}}
+
+
+/* =========================================================
+   MAIN HEADER
+   ========================================================= */
+
+.main-header {{
 
     display: flex;
 
@@ -326,19 +397,19 @@ section[data-testid="stSidebar"]
 
     gap: 18px;
 
-    margin-top: 25px;
+    margin-top: 5px;
 
-    margin-bottom: 8px;
+    margin-bottom: 28px;
 }}
 
 
-.portal-icon {{
+.main-building {{
 
-    width: 65px;
+    width: 62px;
 
-    height: 65px;
+    height: 62px;
 
-    border-radius: 18px;
+    border-radius: 16px;
 
     display: flex;
 
@@ -346,156 +417,105 @@ section[data-testid="stSidebar"]
 
     justify-content: center;
 
+    font-size: 39px;
+
     background:
         linear-gradient(
             135deg,
-            {PRIMARY_LIGHT},
-            {PINK_LIGHT}
+            #F3E8FF,
+            #FCE7F3
         );
 
-    font-size: 35px;
-
     box-shadow:
-        0 10px 25px
-        rgba(124,58,237,0.08);
+        0 8px 20px
+        rgba(124,58,237,0.10);
 }}
 
 
-.portal-title {{
+.main-title {{
 
-    font-size: 42px;
+    font-size: 36px;
 
     line-height: 1.1;
 
     font-weight: 850;
 
-    letter-spacing: -1px;
+    letter-spacing: -0.8px;
 
-    color: {TEXT} !important;
+    color: {TEXT};
 }}
 
 
-.portal-subtitle {{
+.main-subtitle {{
 
-    margin-top: 7px;
+    margin-top: 6px;
 
-    font-size: 17px;
+    font-size: 16px;
 
-    color: {TEXT_LIGHT} !important;
+    color: {TEXT_SECONDARY};
 }}
 
 
-/* =====================================================
+/* =========================================================
    MAIN CARD
-   ===================================================== */
+   ========================================================= */
 
 .portal-card {{
 
-    margin-top: 30px;
-
-    background: {WHITE};
+    background:
+        rgba(255,255,255,0.96);
 
     border:
         1px solid {BORDER};
 
-    border-radius: 22px;
+    border-radius:
+        20px;
 
-    padding: 30px;
+    padding:
+        30px;
 
     box-shadow:
-        0 18px 45px
-        rgba(38,24,57,0.07);
+        0 15px 45px
+        {SHADOW};
 }}
 
 
-/* =====================================================
+/* =========================================================
    LABELS
-   ===================================================== */
+   ========================================================= */
 
 [data-testid="stWidgetLabel"] label {{
 
     color: {TEXT} !important;
 
+    font-size: 14px !important;
+
     font-weight: 700 !important;
 }}
 
 
-/* =====================================================
-   TEXT INPUT
-   ===================================================== */
+/* =========================================================
+   SELECT BOX
+   ========================================================= */
 
-div[data-baseweb="input"] {{
-
-    background:
-        {WHITE} !important;
-
-    border:
-        1.5px solid
-        {BORDER} !important;
-
-    border-radius:
-        10px !important;
-
-    box-shadow:
-        none !important;
-}}
-
-
-div[data-baseweb="input"]:focus-within {{
-
-    border-color:
-        {BORDER_FOCUS} !important;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(192,132,252,0.13)
-        !important;
-}}
-
-
-input {{
-
-    background:
-        {WHITE} !important;
-
-    color:
-        {TEXT} !important;
-
-    -webkit-text-fill-color:
-        {TEXT} !important;
-}}
-
-
-input::placeholder {{
-
-    color:
-        #98A2B3 !important;
-
-    -webkit-text-fill-color:
-        #98A2B3 !important;
-}}
-
-
-/* =====================================================
-   SELECTBOX
-   ===================================================== */
-
-div[data-baseweb="select"]
-> div {{
+div[data-baseweb="select"] > div {{
 
     background:
         {WHITE} !important;
 
     border:
         1.5px solid
-        #E8B9D4 !important;
+        #E9A8D2 !important;
 
     border-radius:
         10px !important;
+
+    min-height:
+        44px !important;
 }}
 
 
-div[data-baseweb="select"] * {{
+div[data-baseweb="select"] span {{
 
     color:
         {TEXT} !important;
@@ -512,46 +532,74 @@ div[data-baseweb="select"] svg {{
 }}
 
 
-/* =====================================================
-   DROPDOWN POPUP
-   IMPORTANT FIX FOR YOUR SCREENSHOT
-   ===================================================== */
-
-div[data-baseweb="popover"] {{
-
-    background:
-        {WHITE} !important;
-
-    opacity:
-        1 !important;
-}}
-
+/* Dropdown popup */
 
 div[data-baseweb="popover"] > div {{
-
-    background:
-        {WHITE} !important;
+    background: {WHITE} !important;
 }}
 
 
 div[data-baseweb="menu"] {{
-
-    background:
-        {WHITE} !important;
+    background: {WHITE} !important;
 }}
 
 
 ul[role="listbox"] {{
-
-    background:
-        {WHITE} !important;
+    background: {WHITE} !important;
 }}
 
 
 li[role="option"] {{
+    background: {WHITE} !important;
+
+    color: {TEXT} !important;
+
+    -webkit-text-fill-color: {TEXT} !important;
+
+    font-size: 14px !important;
+
+    padding: 10px 14px !important;
+}}
+
+
+li[role="option"]:hover {{
+    background: {LIGHT_PINK} !important;
+
+    color: {PINK_DARK} !important;
+}}
+
+
+/* =========================================================
+   TEXT INPUT
+   ========================================================= */
+
+div[data-baseweb="input"] {{
 
     background:
         {WHITE} !important;
+
+    border:
+        1.5px solid
+        {INPUT_BORDER} !important;
+
+    border-radius:
+        9px !important;
+}}
+
+
+div[data-baseweb="input"]:focus-within {{
+
+    border-color:
+        #C084FC !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(192,132,252,0.10)
+        !important;
+}}
+
+
+input {{
 
     color:
         {TEXT} !important;
@@ -559,35 +607,24 @@ li[role="option"] {{
     -webkit-text-fill-color:
         {TEXT} !important;
 
-    padding:
-        10px 14px !important;
+    background:
+        {WHITE} !important;
 }}
 
 
-li[role="option"]:hover {{
-
-    background:
-        {PINK_LIGHT} !important;
+input::placeholder {{
 
     color:
-        #BE185D !important;
+        #94A3B8 !important;
+
+    -webkit-text-fill-color:
+        #94A3B8 !important;
 }}
 
 
-li[aria-selected="true"] {{
-
-    background:
-        {PRIMARY_LIGHT} !important;
-
-    color:
-        {PRIMARY} !important;
-}}
-
-
-/* =====================================================
+/* =========================================================
    DATE INPUT
-   WHITE BACKGROUND + BLACK TEXT
-   ===================================================== */
+   ========================================================= */
 
 div[data-testid="stDateInput"]
 div[data-baseweb="input"] {{
@@ -597,15 +634,14 @@ div[data-baseweb="input"] {{
 
     border:
         1.5px solid
-        {BORDER} !important;
+        {INPUT_BORDER} !important;
 
-    box-shadow:
-        none !important;
+    border-radius:
+        9px !important;
 }}
 
 
-div[data-testid="stDateInput"]
-input {{
+div[data-testid="stDateInput"] input {{
 
     background:
         {WHITE} !important;
@@ -618,8 +654,7 @@ input {{
 }}
 
 
-div[data-testid="stDateInput"]
-button {{
+div[data-testid="stDateInput"] button {{
 
     background:
         {WHITE} !important;
@@ -629,78 +664,84 @@ button {{
 }}
 
 
-div[data-testid="stDateInput"]
-svg {{
+div[data-testid="stDateInput"] svg {{
 
     fill:
         {TEXT} !important;
 }}
 
 
-/* =====================================================
-   DIA SECTION
-   ===================================================== */
+/* =========================================================
+   DIA HEADER
+   ========================================================= */
 
-.dia-section {{
-
-    margin-top: 30px;
-
-    padding-top: 25px;
-
-    border-top:
-        1px solid #F1E7EF;
-}}
-
-
-.dia-heading {{
+.dia-header {{
 
     display: flex;
 
     align-items: center;
 
-    gap: 12px;
+    gap: 10px;
+
+    margin-top: 25px;
+
+    margin-bottom: 5px;
 }}
 
 
 .dia-icon {{
 
-    font-size: 28px;
+    font-size: 27px;
+
+    color: {PINK};
 }}
 
 
 .dia-title {{
 
-    font-size: 27px;
+    font-size: 25px;
 
     font-weight: 850;
 
-    color:
-        {TEXT} !important;
+    color: {TEXT};
+}}
+
+
+.dia-line {{
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #F5B7D9,
+            #F9DCEA
+        );
+
+    margin-left: 10px;
 }}
 
 
 .dia-description {{
 
-    margin-top: 5px;
+    font-size: 13px;
 
-    margin-bottom: 20px;
+    color: {TEXT_SECONDARY};
 
-    font-size: 14px;
-
-    color:
-        {TEXT_LIGHT} !important;
+    margin-bottom: 14px;
 }}
 
 
-/* =====================================================
+/* =========================================================
    NUMBER INPUT
-   ===================================================== */
+   ========================================================= */
 
-div[data-testid="stNumberInput"]
-div[data-baseweb="input"] {{
+div[data-testid="stNumberInput"] div[data-baseweb="input"] {{
 
     border-radius:
-        10px 0 0 10px !important;
+        8px !important;
 }}
 
 
@@ -708,14 +749,14 @@ button[data-testid="stNumberInputStepDown"],
 button[data-testid="stNumberInputStepUp"] {{
 
     background:
-        #FFF0F8 !important;
+        #FDF0F8 !important;
 
     border:
         1px solid
-        #F1C7DF !important;
+        #F4D3E5 !important;
 
     color:
-        #C0268D !important;
+        {PINK_DARK} !important;
 }}
 
 
@@ -723,91 +764,137 @@ button[data-testid="stNumberInputStepDown"] svg,
 button[data-testid="stNumberInputStepUp"] svg {{
 
     fill:
-        #C0268D !important;
+        {PINK_DARK} !important;
 }}
 
 
-/* =====================================================
+/* =========================================================
    PRIMARY BUTTON
-   ===================================================== */
+   ========================================================= */
 
 .stButton > button,
-[data-testid="stFormSubmitButton"] > button {{
+[data-testid="stFormSubmitButton"] button {{
 
     background:
         linear-gradient(
             90deg,
             {PRIMARY},
-            {SECONDARY}
+            {PINK}
         ) !important;
-
-    color:
-        #FFFFFF !important;
-
-    -webkit-text-fill-color:
-        #FFFFFF !important;
 
     border:
         none !important;
 
-    border-radius:
-        11px !important;
+    color:
+        white !important;
+
+    -webkit-text-fill-color:
+        white !important;
 
     min-height:
         48px !important;
 
+    border-radius:
+        10px !important;
+
     font-weight:
         800 !important;
 
+    font-size:
+        15px !important;
+
     box-shadow:
-        0 10px 25px
-        rgba(217,70,239,0.20) !important;
+        0 10px 24px
+        rgba(219,39,119,0.18) !important;
 }}
 
 
 .stButton > button:hover,
-[data-testid="stFormSubmitButton"]
-> button:hover {{
+[data-testid="stFormSubmitButton"] button:hover {{
+
+    filter:
+        brightness(0.97);
 
     transform:
         translateY(-1px);
-
-    filter:
-        brightness(0.98);
 }}
 
 
-/* =====================================================
-   INFO / SUCCESS
-   ===================================================== */
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.back-button button {{
+
+    background:
+        transparent !important;
+
+    color:
+        {PINK_DARK} !important;
+
+    -webkit-text-fill-color:
+        {PINK_DARK} !important;
+
+    border:
+        none !important;
+
+    box-shadow:
+        none !important;
+
+    padding:
+        0 !important;
+
+    min-height:
+        30px !important;
+
+    font-size:
+        14px !important;
+}}
+
+
+/* =========================================================
+   INFO MESSAGE
+   ========================================================= */
 
 div[data-testid="stAlert"] {{
 
     border-radius:
-        12px !important;
+        10px !important;
+
+    border:
+        1px solid #E9D5FF !important;
+
+    background:
+        #FAF5FF !important;
+
+    color:
+        {TEXT} !important;
 }}
 
 
-/* =====================================================
+/* =========================================================
    RESPONSIVE
-   ===================================================== */
+   ========================================================= */
 
 @media(max-width: 900px) {{
 
-    .portal-title {{
-        font-size: 30px;
+    .main-title {{
+        font-size: 28px;
     }}
 
-    .portal-icon {{
+    .main-building {{
         width: 52px;
         height: 52px;
-        font-size: 28px;
+        font-size: 31px;
     }}
 
     .portal-card {{
         padding: 20px;
     }}
 
+    .sidebar-bottom-art {{
+        display: none;
+    }}
 }}
 
 </style>
@@ -816,27 +903,23 @@ div[data-testid="stAlert"] {{
 )
 
 
-# =========================================================
+# ============================================================
 # SIDEBAR
-# =========================================================
+# ============================================================
 
 with st.sidebar:
 
+    # Brand
     st.markdown(
         """
-        <div style="
-            display:flex;
-            align-items:center;
-            gap:12px;
-            margin-bottom:8px;
-        ">
+        <div class="sidebar-brand">
 
-            <div class="sidebar-logo">
+            <div class="sidebar-building">
                 🏛️
             </div>
 
-            <div class="sidebar-title">
-                Data Export
+            <div class="sidebar-brand-text">
+                Grama Panchayat Portal
             </div>
 
         </div>
@@ -844,52 +927,76 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
+
+    # Home
     st.markdown(
         """
-        <div class="sidebar-description">
-
-            Download the submitted contractor
-            records from the portal.
-
+        <div class="sidebar-home">
+            🏠
+            <span>Home</span>
         </div>
         """,
         unsafe_allow_html=True
     )
 
+
+    # Download
     if os.path.exists(EXCEL_FILE):
 
-        with open(EXCEL_FILE, "rb") as file:
+        with open(EXCEL_FILE, "rb") as f:
 
             st.download_button(
-                "📥  Download Data Sheet",
-                data=file,
+                label="⬇  Download Data Sheet",
+                data=f,
                 file_name="contractor_data.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
 
-# =========================================================
-# PAGE 1
-# PANCHAYAT SELECTION
-# =========================================================
+    # Bottom illustration
+    st.markdown(
+        """
+        <div class="sidebar-bottom-art">
+
+            <div class="sidebar-tagline">
+                Stronger Panchayats<br>
+                Brighter Future
+                <br>
+                ── ♥ ──
+            </div>
+
+            <div class="village-art">
+                🌳 🏠 🌳 🏡 🌳
+            </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# PAGE 1 — PANCHAYAT SELECTION
+# ============================================================
 
 if st.session_state.page == "home":
 
+    # Header
     st.markdown(
         """
-        <div class="portal-header">
+        <div class="main-header">
 
-            <div class="portal-icon">
+            <div class="main-building">
                 🏛️
             </div>
 
             <div>
 
-                <div class="portal-title">
+                <div class="main-title">
                     Grama Panchayat Portal
                 </div>
 
-                <div class="portal-subtitle">
+                <div class="main-subtitle">
                     Select your Grama Panchayat to continue
                 </div>
 
@@ -901,18 +1008,21 @@ if st.session_state.page == "home":
     )
 
 
+    # Card start
     st.markdown(
         '<div class="portal-card">',
         unsafe_allow_html=True
     )
 
 
+    # Label
     st.markdown(
         """
         <div style="
-            font-size:16px;
-            font-weight:700;
-            margin-bottom:10px;
+            font-size:15px;
+            font-weight:800;
+            color:#172554;
+            margin-bottom:8px;
         ">
             Select Panchayat
         </div>
@@ -922,23 +1032,26 @@ if st.session_state.page == "home":
 
 
     selected = st.selectbox(
-        "Panchayat",
+        "Select Panchayat",
         ["-- Select Panchayat --"] + PANCHAYATS,
         label_visibility="collapsed"
     )
 
 
-    st.write("")
+    st.markdown(
+        "<div style='height:18px'></div>",
+        unsafe_allow_html=True
+    )
 
 
     if st.button(
-        "Continue  ➜",
+        "Continue  →",
         use_container_width=True
     ):
 
         if selected == "-- Select Panchayat --":
 
-            st.error(
+            st.warning(
                 "Please select a Panchayat before continuing."
             )
 
@@ -952,85 +1065,71 @@ if st.session_state.page == "home":
 
 
     st.markdown(
-        '</div>',
+        "</div>",
         unsafe_allow_html=True
     )
 
 
-# =========================================================
-# PAGE 2
-# CONTRACTOR DETAILS
-# =========================================================
+# ============================================================
+# PAGE 2 — CONTRACTOR DETAILS
+# ============================================================
 
 else:
 
-    # -----------------------------------------------------
-    # BACK
-    # -----------------------------------------------------
+    # Back
+    st.markdown(
+        '<div class="back-button">',
+        unsafe_allow_html=True
+    )
 
-    if st.button("← Back"):
+    if st.button("←  Back"):
 
         st.session_state.page = "home"
 
         st.rerun()
 
-
-    # -----------------------------------------------------
-    # HEADER
-    # -----------------------------------------------------
-
     st.markdown(
-        """
-        <div class="portal-header"
-             style="margin-top:8px;">
+        "</div>",
+        unsafe_allow_html=True
+    )
 
-            <div class="portal-icon">
-                📋
-            </div>
 
-            <div>
-
-                <div class="portal-title">
-                    Contractor Details
-                </div>
-
-                <div class="portal-subtitle">
-                    Enter contractor and DIA information
-                </div>
-
-            </div>
-
+    # Selected Panchayat
+    st.markdown(
+        f"""
+        <div style="
+            margin-bottom:15px;
+            font-size:14px;
+            color:#64748B;
+        ">
+            Selected Panchayat:
+            <strong style="color:#172554;">
+                {st.session_state.selected_panchayat}
+            </strong>
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-    # -----------------------------------------------------
-    # SELECTED PANCHAYAT
-    # -----------------------------------------------------
-
-    st.info(
-        f"📍  Selected Panchayat: "
-        f"**{st.session_state.selected_panchayat}**"
+    # Main form card
+    st.markdown(
+        '<div class="portal-card">',
+        unsafe_allow_html=True
     )
 
 
-    # -----------------------------------------------------
-    # FORM
-    # -----------------------------------------------------
-
     with st.form("contractor_form"):
+
+        # ====================================================
+        # TOP FIELDS
+        # ====================================================
 
         col1, col2 = st.columns(
             2,
             gap="large"
         )
 
-
-        # =================================================
-        # LEFT
-        # =================================================
 
         with col1:
 
@@ -1040,22 +1139,6 @@ else:
             )
 
 
-            vendor_code = st.text_input(
-                "Vendor Code",
-                placeholder="Enter vendor code"
-            )
-
-
-            scheme_id = st.text_input(
-                "Scheme ID",
-                placeholder="Enter scheme ID"
-            )
-
-
-        # =================================================
-        # RIGHT
-        # =================================================
-
         with col2:
 
             ra_bill = st.text_input(
@@ -1064,72 +1147,136 @@ else:
             )
 
 
-            work_date = st.date_input(
-                "Work Date",
-                value=datetime.today()
+        col3, col4 = st.columns(
+            2,
+            gap="large"
+        )
+
+
+        with col3:
+
+            vendor_code = st.text_input(
+                "Vendor Code",
+                placeholder="Enter vendor code"
             )
 
 
-        # =================================================
-        # DIA HEADER
-        # =================================================
+        with col4:
+
+            work_date = st.date_input(
+                "Work Date",
+                value=date.today()
+            )
+
+
+        col5, col6 = st.columns(
+            2,
+            gap="large"
+        )
+
+
+        with col5:
+
+            scheme_id = st.text_input(
+                "Scheme ID",
+                placeholder="Enter scheme ID"
+            )
+
+
+        # ====================================================
+        # DIA SECTION
+        # ====================================================
 
         st.markdown(
             """
-            <div class="dia-section">
+            <div class="dia-header">
 
-                <div class="dia-heading">
-
-                    <div class="dia-icon">
-                        📏
-                    </div>
-
-                    <div class="dia-title">
-                        DIA Values
-                    </div>
-
+                <div class="dia-icon">
+                    📏
                 </div>
 
-                <div class="dia-description">
-                    Enter the quantity for each available DIA size.
+                <div class="dia-title">
+                    DIA Values
                 </div>
 
+                <div class="dia-line"></div>
+
+            </div>
+
+            <div class="dia-description">
+                Enter the quantity for each available DIA size.
             </div>
             """,
             unsafe_allow_html=True
         )
 
 
-        # =================================================
-        # DIA VALUES
-        # =================================================
-
-        dia_cols = st.columns(
-            3,
-            gap="large"
-        )
+        # ====================================================
+        # DIA GRID
+        # ====================================================
 
         dia_values = {}
 
+        row1 = st.columns(3, gap="large")
 
-        for index, dia in enumerate(DIA_COLUMNS):
+        for i in range(3):
 
-            with dia_cols[index % 3]:
+            with row1[i]:
+
+                dia = DIA_COLUMNS[i]
 
                 dia_values[dia] = st.number_input(
                     dia,
                     min_value=0,
                     value=0,
-                    step=1
+                    step=1,
+                    key=f"dia_{i}"
                 )
 
 
-        st.write("")
+        row2 = st.columns(3, gap="large")
+
+        for i in range(3):
+
+            with row2[i]:
+
+                dia = DIA_COLUMNS[i + 3]
+
+                dia_values[dia] = st.number_input(
+                    dia,
+                    min_value=0,
+                    value=0,
+                    step=1,
+                    key=f"dia_{i+3}"
+                )
 
 
-        # =================================================
+        row3 = st.columns(3, gap="large")
+
+        for i in range(3):
+
+            with row3[i]:
+
+                dia = DIA_COLUMNS[i + 6]
+
+                dia_values[dia] = st.number_input(
+                    dia,
+                    min_value=0,
+                    value=0,
+                    step=1,
+                    key=f"dia_{i+6}"
+                )
+
+
+        st.markdown(
+            "<div style='height:10px'></div>",
+            unsafe_allow_html=True
+        )
+
+
+        # ====================================================
         # SUBMIT
-        # =================================================
+        # ====================================================
 
         submitted = st.form_submit_button(
             "💾  Submit Details",
@@ -1137,9 +1284,9 @@ else:
         )
 
 
-        # =================================================
-        # SAVE
-        # =================================================
+        # ====================================================
+        # SAVE DATA
+        # ====================================================
 
         if submitted:
 
@@ -1203,12 +1350,10 @@ else:
 
                 for dia in DIA_COLUMNS:
 
-                    new_row[dia] = (
-                        dia_values[dia]
-                    )
+                    new_row[dia] = dia_values[dia]
 
 
-                new_df = pd.DataFrame(
+                new_data = pd.DataFrame(
                     [new_row]
                 )
 
@@ -1216,7 +1361,7 @@ else:
                 df = pd.concat(
                     [
                         df,
-                        new_df
+                        new_data
                     ],
                     ignore_index=True
                 )
@@ -1229,7 +1374,13 @@ else:
 
 
                 st.success(
-                    "✅ Details submitted successfully!"
+                    "Details submitted successfully!"
                 )
 
                 st.balloons()
+
+
+    st.markdown(
+        "</div>",
+        unsafe_allow_html=True
+    )
