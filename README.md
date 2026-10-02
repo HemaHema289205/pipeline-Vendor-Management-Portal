@@ -1,4 +1,4 @@
-#Grama Panchayat Portal - Streamlit
+# Grama Panchayat Portal - Streamlit
 
 Run locally
 
