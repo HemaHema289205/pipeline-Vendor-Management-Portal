@@ -10,10 +10,10 @@ st.set_page_config(
     layout="centered" 
 )
 
-# Custom Styling: Modern, Clean White & Soft Pink UI (Zero Black Boxes)
+# Custom Styling: Complete Clean White & Soft Pink UI (Zero Black Containers)
 st.markdown("""
 <style>
-    /* Global App Background */
+    /* 1. Global App Background */
     .stApp, header[data-testid="stHeader"] {
         background-color: #fff0f3 !important;
         background-image: linear-gradient(135deg, #ffffff 0%, #fff0f5 50%, #ffe4ec 100%) !important;
@@ -23,47 +23,55 @@ st.markdown("""
         background: transparent !important;
     }
 
-    /* Solid Black Crisp Text Everywhere */
+    /* 2. Text Everywhere: Crisp Dark */
     *, p, span, label, h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] p {
         color: #111827 !important;
         -webkit-text-fill-color: #111827 !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Container / Card Styling */
-    [data-testid="stForm"], div[data-testid="stVerticalBlock"] > div:has(div.stSelectbox) {
+    /* 3. Form & Selection Cards: Clean White with Soft Pink Border */
+    [data-testid="stForm"], 
+    div[data-testid="stVerticalBlock"] > div:has(div.stSelectbox) {
         background-color: #ffffff !important;
         border-radius: 16px !important;
-        padding: 32px !important;
+        padding: 30px !important;
         border: 1.5px solid #fbcfe8 !important;
-        box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.12), 0 8px 10px -6px rgba(244, 114, 182, 0.08) !important;
+        box-shadow: 0 10px 25px rgba(244, 114, 182, 0.1) !important;
     }
 
-    /* Pure White Input Fields */
+    /* 4. Fix ALL Inputs & Dropdowns to Pure White with Soft Pink Borders */
     div[data-baseweb="input"],
-    div[data-baseweb="input"] > div,
+    div[data-baseweb="input"] *,
     div[data-baseweb="base-input"],
+    div[data-baseweb="base-input"] *,
     div[data-baseweb="select"],
     div[data-baseweb="select"] *,
+    div[data-testid="stDateInput"] div[data-baseweb="input"],
+    div[data-testid="stDateInput"] input,
     input {
         background-color: #ffffff !important;
         background: #ffffff !important;
         color: #111827 !important;
         -webkit-text-fill-color: #111827 !important;
         border-color: #f9a8d4 !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
     }
 
-    /* Dropdown Arrow & Menu */
+    /* Dropdown Arrow & Icons */
     div[data-baseweb="select"] svg {
         fill: #111827 !important;
         color: #111827 !important;
     }
 
+    /* 5. Dropdown Menus & Popovers */
     div[data-baseweb="popover"],
+    div[data-baseweb="popover"] *,
     div[data-baseweb="menu"],
     ul[data-baseweb="menu"],
-    li[data-baseweb="menu-item"] {
+    li[data-baseweb="menu-item"],
+    div[data-baseweb="calendar"],
+    div[data-baseweb="calendar"] * {
         background-color: #ffffff !important;
         color: #111827 !important;
         -webkit-text-fill-color: #111827 !important;
@@ -76,11 +84,10 @@ st.markdown("""
         -webkit-text-fill-color: #be185d !important;
     }
 
-    /* Stepper Buttons for DIA Numbers */
+    /* 6. Stepper (+ / -) Buttons for DIA Values */
     button[data-testid="stNumberInputStepDown"],
     button[data-testid="stNumberInputStepUp"] {
         background-color: #fce7f3 !important;
-        color: #be185d !important;
         border: 1px solid #f472b6 !important;
         border-radius: 6px !important;
     }
@@ -88,33 +95,42 @@ st.markdown("""
     button[data-testid="stNumberInputStepUp"]:hover {
         background-color: #fbcfe8 !important;
     }
+    button[data-testid="stNumberInputStepDown"] svg,
+    button[data-testid="stNumberInputStepUp"] svg {
+        fill: #be185d !important;
+    }
 
-    /* Interactive Gradient Action Buttons */
+    /* 7. Action Buttons (Submit, Back, Continue, Sidebar Download) */
     .stButton > button, 
-    [data-testid="stFormSubmitButton"] > button {
+    [data-testid="stFormSubmitButton"] > button,
+    div[data-testid="stSidebar"] button,
+    div[data-testid="stSidebar"] a {
         background: linear-gradient(135deg, #ec4899 0%, #db2777 100%) !important;
         border: none !important;
-        border-radius: 10px !important;
-        padding: 0.65rem 1.6rem !important;
-        box-shadow: 0 4px 14px rgba(219, 39, 119, 0.35) !important;
+        border-radius: 8px !important;
+        padding: 0.65rem 1.5rem !important;
+        box-shadow: 0 4px 14px rgba(219, 39, 119, 0.3) !important;
         transition: all 0.2s ease-in-out !important;
     }
 
     .stButton > button *, 
-    [data-testid="stFormSubmitButton"] > button * {
+    [data-testid="stFormSubmitButton"] > button *,
+    div[data-testid="stSidebar"] button *,
+    div[data-testid="stSidebar"] a * {
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
         font-weight: 700 !important;
-        letter-spacing: 0.5px !important;
     }
 
     .stButton > button:hover, 
-    [data-testid="stFormSubmitButton"] > button:hover {
+    [data-testid="stFormSubmitButton"] > button:hover,
+    div[data-testid="stSidebar"] button:hover {
+        background: linear-gradient(135deg, #db2777 0%, #be185d 100%) !important;
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(219, 39, 119, 0.45) !important;
+        box-shadow: 0 6px 18px rgba(219, 39, 119, 0.4) !important;
     }
 
-    /* Sidebar Styling */
+    /* 8. Sidebar Background */
     section[data-testid="stSidebar"], 
     section[data-testid="stSidebar"] > div {
         background-color: #fff5f7 !important;
