@@ -99,7 +99,13 @@ h1 {
     text-align: center;
     color: var(--text-soft) !important;
     font-size: 1rem;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.35rem;
+}
+
+/* Panchayat selector */
+[data-testid="stSelectbox"] {
+    margin-top: .2rem !important;
+    margin-bottom: .7rem !important;
 }
 
 /* ---------- Selection / form cards ---------- */
@@ -239,10 +245,31 @@ div[role="option"][aria-selected="true"] {
 }
 
 /* ---------- Date picker ---------- */
-div[data-testid="stDateInput"] input {
+div[data-testid="stDateInput"] input,
+div[data-testid="stDateInput"] div[data-baseweb="input"],
+div[data-testid="stDateInput"] div[data-baseweb="base-input"],
+div[data-testid="stDateInput"] div[data-baseweb="input"] > div {
     background: var(--surface) !important;
     color: var(--text) !important;
     -webkit-text-fill-color: var(--text) !important;
+    border-color: var(--border) !important;
+    box-shadow: none !important;
+}
+
+div[data-testid="stDateInput"] input {
+    color: var(--text) !important;
+    -webkit-text-fill-color: var(--text) !important;
+}
+
+div[data-testid="stDateInput"] button {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    border: none !important;
+}
+
+div[data-testid="stDateInput"] svg {
+    fill: var(--text) !important;
+    color: var(--text) !important;
 }
 
 /* Calendar popup */
@@ -362,16 +389,31 @@ section[data-testid="stSidebar"] h3 {
 }
 
 section[data-testid="stSidebar"] .stDownloadButton > button {
-    background: rgba(255,255,255,.08) !important;
-    border: 1px solid rgba(255,255,255,.22) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
-    border-radius: 11px !important;
+    border-radius: 0 !important;
     box-shadow: none !important;
+    padding: .35rem 0 !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+}
+
+section[data-testid="stSidebar"] .stDownloadButton > button *,
+section[data-testid="stSidebar"] .stDownloadButton > button p,
+section[data-testid="stSidebar"] .stDownloadButton > button span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: transparent !important;
 }
 
 section[data-testid="stSidebar"] .stDownloadButton > button:hover {
-    background: rgba(255,255,255,.15) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: .8 !important;
 }
 
 /* ---------- Success / Error messages ---------- */
@@ -450,15 +492,11 @@ if st.session_state.page == "index":
 <div class="portal-subtitle">Select your Grama Panchayat to continue</div>
 """, unsafe_allow_html=True)
 
-    st.markdown('<div class="portal-card">', unsafe_allow_html=True)
-
     selected_panchayat = st.selectbox(
         "Select Panchayat",
         ["-- Select Panchayat --"] + PANCHAYATS,
         index=0
     )
-
-    st.markdown("</div>", unsafe_allow_html=True)
 
     st.write("")
 
