@@ -10,70 +10,120 @@ st.set_page_config(
     layout="centered" 
 )
 
-# Custom Styling: Complete White & Light Pink (No Black Containers)
+# Custom Styling: Modern, Clean White & Soft Pink UI (Zero Black Boxes)
 st.markdown("""
 <style>
-    /* Global background */
+    /* Global App Background */
     .stApp, header[data-testid="stHeader"] {
         background-color: #fff0f3 !important;
-        background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
+        background-image: linear-gradient(135deg, #ffffff 0%, #fff0f5 50%, #ffe4ec 100%) !important;
     }
+    
     header[data-testid="stHeader"], [data-testid="stToolbar"] {
         background: transparent !important;
     }
 
-    /* Text Everywhere */
+    /* Solid Black Crisp Text Everywhere */
     *, p, span, label, h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] p {
         color: #111827 !important;
         -webkit-text-fill-color: #111827 !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Dropdowns & Selectboxes */
-    div[data-baseweb="select"], div[data-baseweb="select"] * {
+    /* Container / Card Styling */
+    [data-testid="stForm"], div[data-testid="stVerticalBlock"] > div:has(div.stSelectbox) {
+        background-color: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 32px !important;
+        border: 1.5px solid #fbcfe8 !important;
+        box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.12), 0 8px 10px -6px rgba(244, 114, 182, 0.08) !important;
+    }
+
+    /* Pure White Input Fields */
+    div[data-baseweb="input"],
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="base-input"],
+    div[data-baseweb="select"],
+    div[data-baseweb="select"] *,
+    input {
         background-color: #ffffff !important;
         background: #ffffff !important;
         color: #111827 !important;
-    }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"], 
-    section[data-testid="stSidebar"] > div {
-        background-color: #fff0f3 !important;
-        background-image: linear-gradient(180deg, #fff5f7 0%, #ffe4ec 100%) !important;
-    }
-
-    /* Date Input */
-    div[data-testid="stDateInput"] div[data-baseweb="input"],
-    div[data-testid="stDateInput"] input {
-        background-color: #ffffff !important;
-        color: #111827 !important;
         -webkit-text-fill-color: #111827 !important;
-        border: 1px solid #d1d5db !important;
+        border-color: #f9a8d4 !important;
+        border-radius: 10px !important;
     }
 
-    /* Number Inputs & DIA Stepper (+/-) Buttons */
-    div[data-testid="stNumberInput"] div[data-baseweb="input"],
-    div[data-testid="stNumberInput"] input {
+    /* Dropdown Arrow & Menu */
+    div[data-baseweb="select"] svg {
+        fill: #111827 !important;
+        color: #111827 !important;
+    }
+
+    div[data-baseweb="popover"],
+    div[data-baseweb="menu"],
+    ul[data-baseweb="menu"],
+    li[data-baseweb="menu-item"] {
         background-color: #ffffff !important;
         color: #111827 !important;
         -webkit-text-fill-color: #111827 !important;
     }
+
+    li[data-baseweb="menu-item"]:hover,
+    li[aria-selected="true"] {
+        background-color: #fdf2f8 !important;
+        color: #be185d !important;
+        -webkit-text-fill-color: #be185d !important;
+    }
+
+    /* Stepper Buttons for DIA Numbers */
     button[data-testid="stNumberInputStepDown"],
     button[data-testid="stNumberInputStepUp"] {
         background-color: #fce7f3 !important;
-        color: #111827 !important;
+        color: #be185d !important;
         border: 1px solid #f472b6 !important;
+        border-radius: 6px !important;
     }
     button[data-testid="stNumberInputStepDown"]:hover,
     button[data-testid="stNumberInputStepUp"]:hover {
         background-color: #fbcfe8 !important;
     }
-    button[data-testid="stNumberInputStepDown"] svg,
-    button[data-testid="stNumberInputStepUp"] svg {
-        fill: #111827 !important;
+
+    /* Interactive Gradient Action Buttons */
+    .stButton > button, 
+    [data-testid="stFormSubmitButton"] > button {
+        background: linear-gradient(135deg, #ec4899 0%, #db2777 100%) !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 0.65rem 1.6rem !important;
+        box-shadow: 0 4px 14px rgba(219, 39, 119, 0.35) !important;
+        transition: all 0.2s ease-in-out !important;
+    }
+
+    .stButton > button *, 
+    [data-testid="stFormSubmitButton"] > button * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .stButton > button:hover, 
+    [data-testid="stFormSubmitButton"] > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(219, 39, 119, 0.45) !important;
+    }
+
+    /* Sidebar Styling */
+    section[data-testid="stSidebar"], 
+    section[data-testid="stSidebar"] > div {
+        background-color: #fff5f7 !important;
+        border-right: 1.5px solid #fbcfe8 !important;
     }
 </style>
-""", unsafe_allow_html=True)EXCEL_FILE = "contractor_data.xlsx"
+""", unsafe_allow_html=True)
+
+EXCEL_FILE = "contractor_data.xlsx"
 
 # Define DIA columns
 DIA_COLUMNS = [col.upper().strip() for col in [
@@ -180,13 +230,13 @@ if 'selected_panchayat' not in st.session_state:
 # Page 1: Index View
 if st.session_state.page == 'index':
     st.markdown("<h1 style='text-align: center;'>🏛️ GRAMA PANCHAYAT PORTAL</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #000000;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #4b5563; font-weight: 500;'>Select your Grama Panchayat to continue</p>", unsafe_allow_html=True)
     
     st.write("")
     selected_panchayat = st.selectbox("Select Panchayat", ["-- Select Panchayat --"] + PANCHAYATS)
     
     st.write("")
-    if st.button("Continue", use_container_width=True):
+    if st.button("Continue ➡️", use_container_width=True):
         if selected_panchayat != "-- Select Panchayat --":
             st.session_state.selected_panchayat = selected_panchayat
             st.session_state.page = 'details'
@@ -215,7 +265,7 @@ elif st.session_state.page == 'details':
             ra_bill = st.text_input("RA Bill")
             work_date = st.date_input("Work Date", value=datetime.today())
             
-        st.markdown("### 📏 DIA Values")
+        st.markdown("<h3 style='margin-top: 15px;'>📏 DIA Values</h3>", unsafe_allow_html=True)
         dia_cols = st.columns(3)
         dia_values = {}
         
@@ -223,6 +273,7 @@ elif st.session_state.page == 'details':
             with dia_cols[i % 3]:
                 dia_values[dia_label] = st.number_input(f"{dia_label}", min_value=0, value=0, step=1)
                 
+        st.write("")
         submitted = st.form_submit_button("💾 Submit Details", use_container_width=True)
         
         if submitted:
